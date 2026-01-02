@@ -1,49 +1,43 @@
 terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.0"
-    }
+  backend "gcs" {
+    bucket = "pardhu-terraform"
+    prefix = "terraform/state"
   }
-  required_version = ">= 1.0.0"
 }
 
 provider "google" {
-  project = var.project
-  region  = var.region
-  # Credentials should be provided via the GOOGLE_CREDENTIALS environment variable or by running
-  # `gcloud auth application-default login` before `terraform apply`.
+  project = var.gcp_project_id
+  region  = var.gcp_region
 }
 
-variable "project" {
-  description = "GCP project ID"
-  type        = string
+resource "google_storage_bucket" "tf_state" {
+  # Use the variable to ensure the bucket name is consistent
+  name = var.tf_state_bucket_name
+
+  # Use the region variable for resource location
+  location = var.gcp_region
+
+  uniform_bucket_level_access = true
+
+  # Adding a label as a small change to test state file versioning.
+  labels = {
+    purpose = "terraform-state-bucket"
+  }
+
+  # Enable versioning to keep a history of your state files.
+  # This is critical for preventing accidental data loss or corruption.
+  versioning {
+    enabled = true
+  }
+
+  # This lifecycle block prevents Terraform from accidentally deleting
+  # the state bucket, which is a critical piece of your infrastructure.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
-variable "region" {
-  description = "GCP region"
-  type        = string
-  default     = "us-central1"
-}
-
-resource "google_service_account" "tf_sa" {
-  account_id   = "tf-sa"
-  display_name = "Terraform Service Account"
-}
-
-# Uncomment to create a key for the service account (store securely!)
-# resource "google_service_account_key" "tf_sa_key" {
-#   service_account_id = google_service_account.tf_sa.name
-#}
-
-# Example: grant the service account the Storage Admin role on the project
-# resource "google_project_iam_member" "sa_storage_admin" {
-#   project = var.project
-#   role    = "roles/storage.admin"
-#   member  = "serviceAccount:${google_service_account.tf_sa.email}"
-#}
-
-output "service_account_email" {
-  value       = google_service_account.tf_sa.email
-  description = "Email of the created service account"
+output "state_bucket_name" {
+  description = "The name of the GCS bucket storing Terraform state."
+  value       = google_storage_bucket.tf_state.name
 }
