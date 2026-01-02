@@ -27,3 +27,5 @@ steps:
         else
           echo "Skipping apply: not on master branch."
         fi
+  options:
+  logging: CLOUD_LOGGING_ONLY
