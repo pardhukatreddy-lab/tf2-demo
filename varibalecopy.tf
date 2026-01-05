@@ -1,7 +1,7 @@
 variable "gcp_project_id" {
   description = "The GCP project ID to deploy resources into."
   type        = string
-  default     = "pelagic-plexus-482016-s2" # Not recommended for environment-specific values
+  default     = "pelagic-plexus-482016-s2" 
 }
 
 variable "gcp_region" {
