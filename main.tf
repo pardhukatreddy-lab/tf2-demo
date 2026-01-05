@@ -1,7 +1,6 @@
 terraform {
-  backend "gcs" {
-    bucket = "pardhu-terraform2"
-    prefix = "terraform/state"
+  backend "local" {
+   path = "terraform/state/terraform.tfstate"
   }
 }
 
