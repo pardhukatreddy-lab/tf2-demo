@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
     bucket = "pardhu-terraform2"
-    prefix = "terraform/state"
+    prefix = "terraform/state4"
   }
 }

@@ -1,17 +1,24 @@
-##input for vpc##
 
-auto_create_subnetworks=true
-vpc_name="my-custom-vpc"
-gcp_project_id="pelagic-plexus-482016-s2"
+# Provider / Global Settings
+project_id = "pelagic-plexus-482016-s2"
+region     = "asia-south2"
+zone       = "asia-south2-a"
 
+# Network Settings
+network_name = "priv-vpc"
+subnet_cidr  = "10.10.0.0/24"
 
-## inputs for vm module##
-project_id       = "pelagic-plexus-482016-s2"
-gcp_region           = "us-central1"
-gcp_zone             = "us-central1-a"
-vm_instance_count    = 0
-vm_instance_name     = "pardhu-vm"
-vm_machine_type      = "e2-small"
-vm_image             = "debian-cloud/debian-11"
-network_name         = "my-app-network"
+# Module Inputs
+router_name    = "private-router"
+nat_name       = "private-nat"
+name_prefix    = "private-lb" # This prefix is used for the LB, MIG, etc.
+machine_type   = "e2-micro"
+instance_count = 2
+
+# Instance tags (must include lb-backend for LB traffic and ssh-iap for IAP SSH)
+vm_tags = ["lb-backend", "ssh-iap"]
+
+## Debian image details 
+image_family = "debian-12"
+image_project = "debian-cloud"
 

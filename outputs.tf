@@ -1,14 +1,15 @@
-output "vpc_network_name" {
-  description = "The name of the created VPC network."
-  value       = module.vpc.vpc_network_name
+
+output "lb_ip_address" {
+  value       = module.private_vm_http_lb.lb_ip_address
+  description = "External HTTP LB IP"
 }
 
-output "instance_names" {
-  description = "The names of the created VM instances."
-  value       = module.compute.instance_names
+output "lb_url" {
+  value       = module.private_vm_http_lb.lb_url
+  description = "HTTP URL to reach Nginx via the Load Balancer"
 }
 
-output "instance_external_ips" {
-  description = "The external IP addresses of the created VM instances."
-  value       = module.compute.instance_external_ips
+output "instance_group" {
+  value       = module.private_vm_http_lb.instance_group
+  description = "MIG instance group URI"
 }
