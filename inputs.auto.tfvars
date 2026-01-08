@@ -13,7 +13,7 @@ router_name    = "private-router"
 nat_name       = "private-nat"
 name_prefix    = "private-lb" # This prefix is used for the LB, MIG, etc.
 machine_type   = "e2-micro"
-instance_count = 2
+instance_count = 1
 
 # Instance tags (must include lb-backend for LB traffic and ssh-iap for IAP SSH)
 vm_tags = ["lb-backend", "ssh-iap"]
