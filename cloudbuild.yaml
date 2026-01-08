@@ -24,10 +24,10 @@ steps:
     args:
       - '-c'
       - |
-        if [ "$BRANCH_NAME" = "test2" ]; then
-          echo "Applying changes on test2 branch."
+        if [ "$BRANCH_NAME" = "main" ]; then
+          echo "Applying changes on main branch."
           terraform apply -auto-approve tfplan
         else
-          echo "Skipping apply: not on test2 branch."
+          echo "Skipping apply: not on main branch."
         fi
  
